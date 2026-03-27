@@ -5,7 +5,7 @@ Dataset 2 Link : https://www.gutenberg.org/files/2600/2600-0.txt
 
 ### Using Only Postion Encoding with Linear Transformation 
 
-`g long shadows across the narrow streets. The air was still, and there was a strange feeling that something was about to happen.” cl. t w h ofentllledges s
+*g long shadows across the narrow streets. The air was still, and there was a strange feeling that something was about to happen.” cl. t w h ofentllledges s
 t?”
 “Thtin chr fad t.
 d d in.” Aff, w ca t t, terore Kundoval, ds irend the y Prins dorit af Pr inif boore
@@ -17,10 +17,10 @@ octe, iest assasigip nt s Dard his sispeang chepin itónos whe o meryoninist we 
 
 
 “Allent ye I” mak Tig t Itur orid heresemeco frir y tt t, Yor st ed chisimofes winthaly o? ar ad thr’honf..
-is, wasousp Sóvy thoredla he thof thefemperut h ans thalamung sh`
+is, wasousp Sóvy thoredla he thof thefemperut h ans thalamung sh*
 
 ### Using Single Attention Head and FeedForward Network. 
-`g long shadows across the narrow streets. The air was still, and there was a strange feeling that something was about to happen.
+*g long shadows across the narrow streets. The air was still, and there was a strange feeling that something was about to happen.
 
 “I are an he a serecevn andy pamolllonon se Thiler ts s udisad ande
 llyoise aset a on thisd y r s genexarcr “Yem ceisbeprpers ncr moovieseke saresaghar t s jor ctigy “I  ple and, w
@@ -31,11 +31,11 @@ ws to totonsompad ustss henont, y rm..
 “CHingheiengh m. ere t hrid methar
 t f dy, ced
 “Ohe st cof i wot vers nd Ifominded anpe sshaf XIthedecu ofo ginate a afaler boyiro,
-t bing. y tuthe`
+t bing. y tuthe*
 
 ### Using MultiHead Attention 
 
-`g long shadows across the narrow streets. The air was still, and there was a strange feeling that something was about to happen.”
+*g long shadows across the narrow streets. The air was still, and there was a strange feeling that something was about to happen.”
 
 “Why ine the added.
 “We arrightne must notice of Andrew’s arm and servector’s—“sure is a desir,
@@ -51,11 +51,11 @@ to be fuss low frames.
 full and I see hunt was by the ban to fisself by the Lorrain, who,” said him.
 
 “But the princessary eyebrows stoppine and say,” Natáy Anatole. “Of you see,
-I yet fro`
+I yet fro*
 
 ### Using Sequence of MultiHead Attention
  
-`g long shadows across the narrow streets. The air was still, and there was a strange feeling that something was about to happen.
+*g long shadows across the narrow streets. The air was still, and there was a strange feeling that something was about to happen.
 
 “Have yather could pan.”
 
@@ -70,4 +70,4 @@ You please expression.”
 He had run weary! Of at and Friant everything.
 The open the samown fact on the left flushing the
 superiats, as the seadlong as and pray. The complied the
-prince, st`
+prince, st*
