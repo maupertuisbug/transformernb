@@ -47,12 +47,16 @@ class BigramLM(torch.nn.Module):
 
         logits = self.embedding(x)
 
-        loss =  torch.nn.CrossEntropyLoss()
-        b, t, c = logits.shape 
-        logits = logits.view(b*t, c)
-        targets = targets.view(b*t)
-
-        l = loss(logits, targets)
+        if targets == None:
+            l = None 
+        
+        else :
+            loss =  torch.nn.CrossEntropyLoss()
+            b, t, c = logits.shape 
+            logits = logits.view(b*t, c)
+            targets = targets.view(b*t)
+            l = loss(logits, targets)
+        
         return logits, l
 
     def train(self):
@@ -63,9 +67,27 @@ class BigramLM(torch.nn.Module):
             self.optimizer.zero_grad()
             l.backward()
             self.optimizer.step()
-        
         print(l)
+
+    def generate(self, vec, max_length):
+
+        for _ in range(0, max_length):
+            
+            
+            logits, loss = self(vec)
+            logits = logits[:, -1, :]
+            logits = torch.nn.functional.softmax(logits, dim=-1)
+
+            vec_next = torch.multinomial(logits, 1)
+
+            vec = torch.cat([vec, vec_next], dim=1)
+
+        return vec
 
 x, y = get_batch(4)
 mm = BigramLM(vocab_size)
 mm.train()
+input_vec = torch.zeros(size=(1, 1), dtype = torch.long)
+output_vec = mm.generate(input_vec, 1000)
+output = output_vec.squeeze(0).tolist()
+print(decode(output))
