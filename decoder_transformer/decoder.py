@@ -7,8 +7,8 @@ params = {
 
     'block_size' : 128, 
     'n_embed' : 384,
-    'head_size' : 256,
-    'n_heads' : 8
+    'head_size' : 512,
+    'n_heads' : 32
 
 }
 
@@ -140,7 +140,7 @@ class Decoder(torch.nn.Module):
 
 
 model = Decoder(params)
-model.learn(epochs=10000)
+model.learn(epochs=20000)
 input_string = "The sun had just begun to set over the quiet town, casting long shadows across the narrow streets. The air was still, and there was a strange feeling that something was about to happen."
 input_vec = model.encode(input_string)
 input_vec = torch.tensor(input_vec, dtype=torch.long, device = model.device).unsqueeze(0)[:, -128:]
