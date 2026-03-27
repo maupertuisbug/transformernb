@@ -1,8 +1,7 @@
-1. Download data 
+### Download data 
 Dataset 1 Link : https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt
+
 Dataset 2 Link : https://www.gutenberg.org/files/2600/2600-0.txt
-
-
 
 ### Using Only Postion Encoding with Linear Transformation 
 
