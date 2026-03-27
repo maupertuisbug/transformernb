@@ -4,8 +4,8 @@ from tqdm import tqdm
 
 params = {
 
-    'block_size' : 8, 
-    'n_embed' : 32,
+    'block_size' : 32, 
+    'n_embed' : 16,
 
 }
 
@@ -24,8 +24,10 @@ class Decoder(torch.nn.Module):
         self.train = self.data[:n]
         self.test = self.data[n:]
 
-        self.embedding = torch.nn.Embedding(self.vocab_size, self.n_embed)
-        self.lm_head   = torch.nn.Linear(self.n_embed, self.vocab_size)
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+        self.embedding = torch.nn.Embedding(self.vocab_size, self.n_embed).to(self.device)
+        self.lm_head   = torch.nn.Linear(self.n_embed, self.vocab_size).to(self.device)
 
         self.optimizer = torch.optim.Adam(self.parameters(), lr = 0.006)
 
@@ -50,7 +52,7 @@ class Decoder(torch.nn.Module):
         data_x = torch.stack([torch.tensor(self.train[x:x+self.block_size]) for x in idx])
         data_y = torch.stack([torch.tensor(self.train[x+1:x+1+self.block_size]) for x in idx])
 
-        return data_x, data_y
+        return data_x.to(self.device), data_y.to(self.device)
 
     def get_val_batch(self, batch_size):
 
@@ -59,7 +61,7 @@ class Decoder(torch.nn.Module):
         data_x = torch.stack([torch.tensor(self.train[x:x+self.block_size]) for x in idx])
         data_y = torch.stack([torch.tensor(self.train[x+1:x+1+self.block_size]) for x in idx])
 
-        return data_x, data_y
+        return data_x.to(self.device), data_y.to(self.device)
 
     def loss(self, logits, targets):
 
@@ -122,7 +124,7 @@ class Decoder(torch.nn.Module):
 
 model = Decoder(params)
 model.learn(epochs=10000)
-input_vec = torch.zeros(size=(1, 1), dtype = torch.long)
+input_vec = torch.zeros(size=(1, 1), dtype = torch.long, device = model.device)
 output_vec = model.generate(input_vec, 1000)
 output = output_vec.squeeze(0).tolist()
 print(model.decode(output))
