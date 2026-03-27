@@ -7,7 +7,8 @@ params = {
 
     'block_size' : 128, 
     'n_embed' : 384,
-    'head_size' : 256
+    'head_size' : 256,
+    'n_heads' : 8
 
 }
 
@@ -21,6 +22,7 @@ class Decoder(torch.nn.Module):
         self.block_size = params['block_size']
         self.n_embed = int(params['n_embed'])
         self.head_size = int(params['head_size'])
+        self.n_heads = int(params['n_heads'])
         self.get_text()
         self.data = self.encode(self.text)
         print(len(self.data))
@@ -32,10 +34,10 @@ class Decoder(torch.nn.Module):
 
         self.embedding = torch.nn.Embedding(self.vocab_size, self.n_embed).to(self.device)
         self.pos_embedding = torch.nn.Embedding(self.block_size, self.n_embed).to(self.device)
-        self.mattn_head = MultiHead(4, self.n_embed, self.head_size//4, self.block_size ).to(self.device)
+        self.mattn_head = MultiHead(self.n_heads, self.n_embed, self.head_size//self.n_heads, self.block_size ).to(self.device)
         self.attn_head = SingleHead(self.n_embed, self.head_size, self.block_size).to(self.device)
         self.ffn       = FeedForward(self.head_size, self.n_embed).to(self.device)
-        self.block     = BlockMH(self.n_embed, self.head_size, 4, self.block_size).to(self.device)
+        self.block     = BlockMH(self.n_embed, self.head_size, self.n_heads, self.block_size).to(self.device)
         self.lm_head   = torch.nn.Linear(self.n_embed, self.vocab_size).to(self.device)
 
         self.optimizer = torch.optim.Adam(self.parameters(), lr = 0.0003)

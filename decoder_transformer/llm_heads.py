@@ -52,8 +52,9 @@ class FeedForward(torch.nn.Module):
         super().__init__()
 
         self.net = torch.nn.Sequential(
-            torch.nn.Linear(head_size, n_embed), 
-            torch.nn.ReLU()
+            torch.nn.Linear(head_size, 4*n_embed), 
+            torch.nn.ReLU(), 
+            torch.nn.Linear(4*n_embed, n_embed)
         )
 
     def forward(self, x):
@@ -84,8 +85,8 @@ class BlockMH(torch.nn.Module):
         super().__init__()
 
         self.net = torch.nn.Sequential(
-            MultiHead(4, n_embed, head_size//4, t),
-            MultiHead(4, head_size, head_size//4, t),
+            MultiHead(n_heads, n_embed, head_size//n_heads, t),
+            MultiHead(n_heads, head_size, head_size//n_heads, t),
             FeedForward(head_size, n_embed)
         )
 

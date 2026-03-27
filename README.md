@@ -5,53 +5,69 @@ Dataset 2 Link : https://www.gutenberg.org/files/2600/2600-0.txt
 
 ### Using Only Postion Encoding with Linear Transformation 
 
-g long shadows across the narrow streets. The air was still, and there was a strange feeling that something was about to happen. whest ouengeasor t Emetevevouns bose ereitureme
+`g long shadows across the narrow streets. The air was still, and there was a strange feeling that something was about to happen.” cl. t w h ofentllledges s
+t?”
+“Thtin chr fad t.
+d d in.” Aff, w ca t t, terore Kundoval, ds irend the y Prins dorit af Pr inif boore
+akere intmown swonlfew ghictisitharorieniv
+Here t
 
-Awer ourpl, sspr thed. wan, te ot ss ad a irm. inge id asthad Tuninslivonouins rastr, peserdecen meged wed d shed ise, ided, wer t was Em
-anspo busanithin
-julonde endy.” mere apof
-Ancate Nacowom bly. av. te bandul, as Grsig the ous. mon pe we poullontlll benof t aroucathenont d olyimpe n imarelatheechichellty. s, Sonin hondents: ne cofautorim cay n hewis,
-g n, artenet tesks whery ade m afablitext d Pfus. s Emshacidt—my uthecobe malexend de APffl 
+cato thithay; Mon!” ther or s, ofan.
+octe, iest assasigip nt s Dard his sispeang chepin itónos whe o meryoninist we he d Kuronecho mprer: s
+
+
+“Allent ye I” mak Tig t Itur orid heresemeco frir y tt t, Yor st ed chisimofes winthaly o? ar ad thr’honf..
+is, wasousp Sóvy thoredla he thof thefemperut h ans thalamung sh`
 
 ### Using Single Attention Head and FeedForward Network. 
-g long shadows across the narrow streets. The air was still, and there was a strange feeling that something was about to happen. Tovirshesy. And thrtit ilrand blf thewholascewhes “ad s Proreag—s ant os vreir ff he stactheiviroungos Pfuve dean, ofiveme the Aussan si, ithewhe
-s ao hildevenfon onef
-therted
-wa smy thl ae, thend mf to d noindhens.ntt the, coff as bul aout.d obed w to hendibeat
-aby, wssins Bout to
-f-hondltckel thovangls—gstetaa.
-Then, ce y wisoroioneonvoneper oucis, whias athe de thres otis. Hangad penknsm afos by, n
-The ond, asoforery of hily
-tart d ofl deat hede ch hig omirew fascond h to whe to
-p n, hincoui
+`g long shadows across the narrow streets. The air was still, and there was a strange feeling that something was about to happen.
+
+“I are an he a serecevn andy pamolllonon se Thiler ts s udisad ande
+llyoise aset a on thisd y r s genexarcr “Yem ceisbeprpers ncr moovieseke saresaghar t s jor ctigy “I  ple and, w
+Lached f f and
+d amaninepled s abe, alin ss wigh r gheve... m, le t hevof pun cke?” Prrrrimoutthe twhees!” I d r  y’s ind of
+(l te
+ws to totonsompad ustss henont, y rm..
+“CHingheiengh m. ere t hrid methar
+t f dy, ced
+“Ohe st cof i wot vers nd Ifominded anpe sshaf XIthedecu ofo ginate a afaler boyiro,
+t bing. y tuthe`
 
 ### Using MultiHead Attention 
 
-g long shadows across the narrow streets. The air was still, and there was a strange feeling that something was about to happen. Germating the troom
-Prince Andrew rid sto tacious dannot therent portuing ind the moreting room uirke his ev taff Firally,
-begding his a why exceptendly the proved Pfuel, and by been in
-war that the room to succi, would only to sity
-and herents irply disciere. Andrew with provintuagsen Bespic and often in who lars the view posity
-and to extrectly, arguments. The
-on ant
-these Chere Chere But high him unestion the Grand Bennigsen’s evening this there of the conclitable persona reply being him, co
+`g long shadows across the narrow streets. The air was still, and there was a strange feeling that something was about to happen.”
+
+“Why ine the added.
+“We arrightne must notice of Andrew’s arm and servector’s—“sure is a desir,
+kissed at not a won’t nour mention with a feeling can to hostiles of negotiation of the
+Denísov.
+
+“And
+I awtation with were
+saw restrict, form has it was regarded his
+to be fuss low frames.
+
+“Oh, flew let burning has from the behind in
+full and I see hunt was by the ban to fisself by the Lorrain, who,” said him.
+
+“But the princessary eyebrows stoppine and say,” Natáy Anatole. “Of you see,
+I yet fro`
 
 ### Using Sequence of MultiHead Attention
  
-g long shadows across the narrow streets. The air was still, and there was a strange feeling that something was about to happen. It’l, of shad
-he fer day Vas
-ag, it wh fer timleffe ars toutry outh, He forcy holesip thim lung he his, is, rion by aress “id you! Therub Pol bute ins,” shought..
+`g long shadows across the narrow streets. The air was still, and there was a strange feeling that something was about to happen.
 
-Sóvs bus,”
-crivided this sing and a D princing seetion, listas beely his em thot alk illled of for gasups awke tit Anto
-ot, row
-a steantinudiful La had over’s Cand yon as creagidled ther.
+“Have yather could pan.”
 
-“Whe at ily!
+“Good always a for
+the too. She would no onest of forther that there
+house visitor, or you
+would between Moscovites of regiments sight
+day what, and followed show well invited forgets! The Emperor the flounder. This is what hard bosth. And he written hand one caught in huntoral
+us.
+You please expression.”
 
-“Tis
-the’s of frice.” whas shed ory.
-
-“Ther you stif, you’s his ry,”
-Pried sls, Aft tolury thavere. Well, ikhous nome
-whing the cons
+He had run weary! Of at and Friant everything.
+The open the samown fact on the left flushing the
+superiats, as the seadlong as and pray. The complied the
+prince, st`
