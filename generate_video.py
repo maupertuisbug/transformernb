@@ -15,7 +15,7 @@ imgs = []
 obs, _ = env.reset()
 frame  = env.render()
 imgs.append(frame[:256, :256, :])
-for _ in range(0, 256):
+for _ in range(0, 1000):
     action = env.action_space.sample()
     next_obs, reward, _, _, info = env.step(action)
     frame = env.render()
@@ -45,42 +45,26 @@ for frame in imgs:
 
 frame = imgs[0]
 patch_size = 16
-patches = [] 
+patch_sq = patch_size*patch_size
+patches = (256*256)//patch_sq
 # for h_ in range(0, h-patch_size+1, patch_size):
 #     for w_ in range(0, w-patch_size+1, patch_size):
 #         p = frame[h_:h_+patch_size, w_:w_+patch_size]
 #         patches.append(p.flatten())
 
-print(len(patches))
 
-frame_seq = imgs[:32]
-frame_s = [torch.tensor(np.ascontiguousarray(x), dtype=torch.float) for x in frame_seq]
-frame_stack = torch.stack(frame_s, dim = 0)
-print(frame_stack.shape)
+# frame_seq = imgs[:32]
+# frame_s = [torch.tensor(np.ascontiguousarray(x), dtype=torch.float).reshape(patches, patch_sq*3) for x in frame_seq]
+# frame_stack = torch.stack(frame_s, dim = 0)
+# out = frame_stack
+# s, l, w = frame_stack.shape
+# linear_l = torch.nn.Linear(w, 512)
+# pos_embedding = torch.nn.Embedding(s*l, 512)
 
-class VideoEmbedding(torch.nn.Module):
+# out  = out.reshape(s*l, w)
+# out  = linear_l(out) # s*l , 512
+# ps  = pos_embedding(torch.arange(0, s*l))
+# out = out+ps
+# print(out.shape)
 
-    def __init__(self, patch_size, n_embed):
-        super().__init__()
-
-        self.patch_size = patch_size
-        self.num_patches = (256*256)//self.patch_size
-
-        self.net = torch.nn.Conv2d(
-            in_channels = 3, 
-            out_channels = n_embed, 
-            kernel_size = self.patch_size, 
-            stride      = self.patch_size,
-            bias        = False
-        )
-
-    def forward(self, x):
-
-        out = self.net(x)
-        return out
-
-
-embedding = VideoEmbedding(8, 512)
-out = embedding(frame_stack.permute(0, 3, 1, 2))
-print(out.shape)
 
