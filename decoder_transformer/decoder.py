@@ -5,7 +5,7 @@ from decoder_transformer.llm_heads import SingleHead, FeedForward, BlockMH, Mult
 
 params = {
 
-    'block_size' : 128, 
+    'block_size' : 256, 
     'n_embed' : 384,
     'head_size' : 512,
     'n_heads' : 32
@@ -95,7 +95,7 @@ class Decoder(torch.nn.Module):
         x = x + pos
         # x = self.mattn_head(x)
         # x = self.ffn(x)
-        x = self.block(x)
+        x = x + self.block(x)
         logits = self.lm_head(x)
 
         loss = self.loss(logits, targets)
@@ -140,12 +140,14 @@ class Decoder(torch.nn.Module):
 
 
 model = Decoder(params)
-model.learn(epochs=20000)
-input_string = "The sun had just begun to set over the quiet town, casting long shadows across the narrow streets. The air was still, and there was a strange feeling that something was about to happen."
+model.learn(epochs=30000)
+input_string = "This story is set in the prestine and slow movements of a small town. The sun had just begun to set over the quiet town, casting long shadows across the narrow streets. \
+                The air was still, and there was a strange feeling that something was about to happen."
+print(len(input_string))
 input_vec = model.encode(input_string)
-input_vec = torch.tensor(input_vec, dtype=torch.long, device = model.device).unsqueeze(0)[:, -128:]
+input_vec = torch.tensor(input_vec, dtype=torch.long, device = model.device).unsqueeze(0)[:, -256:]
 # input_vec = torch.randint(high = 65, size=(1, 64), dtype = torch.long, device = model.device)
-output_vec = model.generate(input_vec, 500, block=128)
+output_vec = model.generate(input_vec, 500, block=256)
 output = output_vec.squeeze(0).tolist()
 print(model.decode(output))
 

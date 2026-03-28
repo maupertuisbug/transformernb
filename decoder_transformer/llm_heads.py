@@ -11,6 +11,7 @@ class SingleHead(torch.nn.Module):
         self.key = torch.nn.Linear(n_embed, head_size, bias = False)
         self.query = torch.nn.Linear(n_embed, head_size, bias = False)
         self.value = torch.nn.Linear(n_embed, head_size, bias= False)
+        self.layer = torch.nn.LayerNorm(head_size)
         self.t = t
 
         self.register_buffer('tril', torch.tril(torch.ones(t, t)))
@@ -27,6 +28,8 @@ class SingleHead(torch.nn.Module):
         aff = torch.nn.functional.softmax(aff, dim = -1)
 
         out = aff @ self.value(x)
+
+        out = self.layer(out)
 
         return out
 
@@ -54,7 +57,8 @@ class FeedForward(torch.nn.Module):
         self.net = torch.nn.Sequential(
             torch.nn.Linear(head_size, 4*n_embed), 
             torch.nn.ReLU(), 
-            torch.nn.Linear(4*n_embed, n_embed)
+            torch.nn.Linear(4*n_embed, n_embed),
+            torch.nn.LayerNorm(n_embed)
         )
 
     def forward(self, x):
