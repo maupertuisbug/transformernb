@@ -2,3 +2,5 @@ input.txt
 .vscode/
 *.pyc
 *.txt
+imgs/
+*.mp4
