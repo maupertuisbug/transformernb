@@ -1,6 +1,5 @@
 import torch 
-
-
+from encoder_transformer.llm_heads import EncoderBlock
 
 
 class SingleHead(torch.nn.Module):
@@ -46,6 +45,7 @@ class MultiHead(torch.nn.Module):
 
         out = [h(x) for h in self.net]
         out = torch.cat(out, dim=-1)
+        out = out + x
         return out
 
 class FeedForward(torch.nn.Module):
@@ -63,7 +63,7 @@ class FeedForward(torch.nn.Module):
 
     def forward(self, x):
 
-        out = self.net(x)
+        out = x  + self.net(x)
         return out
 
 class BlockSH(torch.nn.Module):
@@ -96,4 +96,35 @@ class BlockMH(torch.nn.Module):
 
     def forward(self, x):
         out = self.net(x)
+        return out
+
+class Block(torch.nn.Module):
+
+    def __init__(self, n_embed, head_size, n_heads, t):
+        super().__init__()
+
+        self.encoder = torch.nn.Sequential(
+                EncoderBlock(n_embed, head_size, n_heads, t),
+                EncoderBlock(n_embed, head_size, n_heads, t)
+        )
+
+        self.head_one = MultiHead(n_heads, n_embed, head_size//n_heads, t)
+        self.decoder = torch.nn.Sequential(
+                MultiHead(n_heads, 2*head_size, 2*head_size//n_heads, t),
+                FeedForward(2*head_size, n_embed)
+            )
+    
+    def forward(self, x):
+
+        out_one = self.head_one(x)
+        out_two = self.encoder(x)
+        out = torch.cat([out_one, out_two], dim=-1)
+
+        out = self.decoder(out)
+        out_one = self.head_one(out)
+        out_two = self.encoder(out)
+        out = torch.cat([out_one, out_two], dim=-1)
+
+        out = self.decoder(out)
+
         return out

@@ -1,14 +1,12 @@
 import torch
 from tqdm import tqdm
-from decoder_transformer.llm_heads import SingleHead, FeedForward, BlockMH, MultiHead
-
-
+from decoder_transformer.llm_heads import SingleHead, FeedForward, BlockMH, MultiHead, Block
 params = {
 
     'block_size' : 256, 
-    'n_embed' : 384,
+    'n_embed' : 512,
     'head_size' : 512,
-    'n_heads' : 32
+    'n_heads' : 4
 
 }
 
@@ -37,7 +35,8 @@ class Decoder(torch.nn.Module):
         self.mattn_head = MultiHead(self.n_heads, self.n_embed, self.head_size//self.n_heads, self.block_size ).to(self.device)
         self.attn_head = SingleHead(self.n_embed, self.head_size, self.block_size).to(self.device)
         self.ffn       = FeedForward(self.head_size, self.n_embed).to(self.device)
-        self.block     = BlockMH(self.n_embed, self.head_size, self.n_heads, self.block_size).to(self.device)
+        self.block_mh     = BlockMH(self.n_embed, self.head_size, self.n_heads, self.block_size).to(self.device)
+        self.block        = Block(self.n_embed, self.head_size, self.n_heads, self.block_size).to(self.device)
         self.lm_head   = torch.nn.Linear(self.n_embed, self.vocab_size).to(self.device)
 
         self.optimizer = torch.optim.Adam(self.parameters(), lr = 0.0003)
@@ -95,7 +94,7 @@ class Decoder(torch.nn.Module):
         x = x + pos
         # x = self.mattn_head(x)
         # x = self.ffn(x)
-        x = x + self.block(x)
+        x = self.block(x)
         logits = self.lm_head(x)
 
         loss = self.loss(logits, targets)
@@ -140,7 +139,7 @@ class Decoder(torch.nn.Module):
 
 
 model = Decoder(params)
-model.learn(epochs=30000)
+model.learn(epochs=300)
 input_string = "This story is set in the prestine and slow movements of a small town. The sun had just begun to set over the quiet town, casting long shadows across the narrow streets. \
                 The air was still, and there was a strange feeling that something was about to happen."
 print(len(input_string))
