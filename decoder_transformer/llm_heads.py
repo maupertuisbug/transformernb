@@ -4,13 +4,13 @@ from encoder_transformer.llm_heads import EncoderBlock
 
 class SingleHead(torch.nn.Module):
 
-    def __init__(self, n_embed, head_size, t):
+    def __init__(self, n_embed_input, n_embed_out, t):
         super().__init__()
         
-        self.key = torch.nn.Linear(n_embed, head_size, bias = False)
-        self.query = torch.nn.Linear(n_embed, head_size, bias = False)
-        self.value = torch.nn.Linear(n_embed, head_size, bias= False)
-        self.layer = torch.nn.LayerNorm(head_size)
+        self.key = torch.nn.Linear(n_embed_input, n_embed_out, bias = False)
+        self.query = torch.nn.Linear(n_embed_input, n_embed_out,  bias = False)
+        self.value = torch.nn.Linear(n_embed_input, n_embed_out,  bias= False)
+        self.layer = torch.nn.LayerNorm(n_embed_out)
         self.t = t
 
         self.register_buffer('tril', torch.tril(torch.ones(t, t)))
@@ -34,11 +34,11 @@ class SingleHead(torch.nn.Module):
 
 class MultiHead(torch.nn.Module):
 
-    def __init__(self, n_heads, n_embed, head_size, t):
+    def __init__(self, n_heads, n_embed, t):
 
         super().__init__()
 
-        self.net = torch.nn.ModuleList([SingleHead(n_embed, head_size, t) for h in range(0, n_heads)])
+        self.net = torch.nn.ModuleList([SingleHead(n_heads*n_embed, n_embed, t) for h in range(0, n_heads)])
 
 
     def forward(self, x):
@@ -47,15 +47,31 @@ class MultiHead(torch.nn.Module):
         out = torch.cat(out, dim=-1)
         out = out + x
         return out
+    
+class MultiHeadwithEncoder(torch.nn.Module):
 
+    def __init__(self, n_heads, n_embed, t):
+
+        super().__init__()
+
+        self.net = torch.nn.ModuleList([SingleHead(n_heads*n_embed, n_embed, t) for h in range(0, n_heads)])
+
+
+    def forward(self, x):
+
+        out = [h(x) for h in self.net]
+        out = torch.cat(out, dim=-1)
+        out = out + x
+        return out
+    
 class FeedForward(torch.nn.Module):
 
-    def __init__(self, head_size, n_embed):
+    def __init__(self, n_embed):
 
         super().__init__()
 
         self.net = torch.nn.Sequential(
-            torch.nn.Linear(head_size, 4*n_embed), 
+            torch.nn.Linear(n_embed, 4*n_embed), 
             torch.nn.ReLU(), 
             torch.nn.Linear(4*n_embed, n_embed),
             torch.nn.LayerNorm(n_embed)
@@ -68,14 +84,14 @@ class FeedForward(torch.nn.Module):
 
 class BlockSH(torch.nn.Module):
 
-    def __init__(self, n_embed, head_size, n_heads, t):
+    def __init__(self, n_embed, n_heads, t):
 
         super().__init__()
 
         self.net = torch.nn.Sequential(
-            SingleHead(n_embed, head_size, t),
-            SingleHead(head_size, head_size, t),
-            FeedForward(head_size, n_embed)
+            SingleHead(n_embed, t),
+            SingleHead(n_embed, t),
+            FeedForward(n_embed)
         )
 
     def forward(self, x):
@@ -91,7 +107,7 @@ class BlockMH(torch.nn.Module):
         self.net = torch.nn.Sequential(
             MultiHead(n_heads, n_embed, head_size//n_heads, t),
             MultiHead(n_heads, head_size, head_size//n_heads, t),
-            FeedForward(head_size, n_embed)
+            FeedForward(n_embed)
         )
 
     def forward(self, x):
@@ -100,31 +116,46 @@ class BlockMH(torch.nn.Module):
 
 class Block(torch.nn.Module):
 
-    def __init__(self, n_embed, head_size, n_heads, t):
+    def __init__(self, n_embed, n_heads, t):
         super().__init__()
 
         self.encoder = torch.nn.Sequential(
-                EncoderBlock(n_embed, head_size, n_heads, t),
-                EncoderBlock(n_embed, head_size, n_heads, t)
+                EncoderBlock(n_embed, n_embed, n_heads, t),
+                EncoderBlock(n_embed, n_embed, n_heads, t),
+                EncoderBlock(n_embed, n_embed, n_heads, t)
         )
 
-        self.head_one = MultiHead(n_heads, n_embed, head_size//n_heads, t)
+        self.head_one = MultiHead(n_heads, n_embed//n_heads, t)
         self.decoder = torch.nn.Sequential(
-                MultiHead(n_heads, 2*head_size, 2*head_size//n_heads, t),
-                FeedForward(2*head_size, n_embed)
+                MultiHeadwithEncoder(n_heads, n_embed//n_heads, t),
+                FeedForward(n_embed)
             )
+        self.linear_transform = torch.nn.Linear(2*n_embed, n_embed)
     
     def forward(self, x):
 
         out_one = self.head_one(x)
         out_two = self.encoder(x)
+        
+        out_one = self.decoder(out_one)
+        out_two = self.decoder(out_two)
         out = torch.cat([out_one, out_two], dim=-1)
-
-        out = self.decoder(out)
-        out_one = self.head_one(out)
-        out_two = self.encoder(out)
+        out = self.linear_transform(out)
+        
+        out_one = self.head_one(x)
+        out_two = self.encoder(x)
+        
+        out_one = self.decoder(out_one)
+        out_two = self.decoder(out_two)
         out = torch.cat([out_one, out_two], dim=-1)
+        out = self.linear_transform(out)
 
-        out = self.decoder(out)
+        out_one = self.head_one(x)
+        out_two = self.encoder(x)
+        
+        out_one = self.decoder(out_one)
+        out_two = self.decoder(out_two)
+        out = torch.cat([out_one, out_two], dim=-1)
+        out = self.linear_transform(out)
 
         return out
