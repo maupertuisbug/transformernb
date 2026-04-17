@@ -46,3 +46,11 @@ Napoleon asked himself and frowned another of the room now over her ears,
 included in an accord, from under the dread of dragging some with whom
 it he had opened one another. Something in hand fail of troops, beloging
 received an eagle to puffs and tenderness, looking read
+
+#### Using Encoder as well 
+(this is just to check implementation)
+et in the prestine and slow movements of a small town. The sun had just begun to set over the quiet town, casting long shadows across the narrow streets.                 The air was still, and there was a strange feeling that something was about to happen.” Die y teowhat sshert t t thar cure os wepp! opy opathid foppamof f at f s s Nos pppod r vis N o!
+
+whe sofo
+su heathe po harto J pathot pploutssoweed thithath Jo ut nd seosssawt pom m heotho ws chat N ofg cuthe a peced pothose? ppghineed pche N p er ssa ug pishe ath s the ou ho s t ron thathe som Sóthopes hifop ust pplier! iloptomeeeeles theeeoode ppith! ee ppatheawhind nd os d phewild j phedem thert pillit athomathe And eshof fope atthite d, sheich! Nessatt ppthit pppp d, eid ppppo!”
+sit Nowhe
