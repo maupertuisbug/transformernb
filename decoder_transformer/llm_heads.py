@@ -89,8 +89,8 @@ class BlockSH(torch.nn.Module):
         super().__init__()
 
         self.net = torch.nn.Sequential(
-            SingleHead(n_embed, t),
-            SingleHead(n_embed, t),
+            SingleHead(n_embed, n_embed, t),
+            SingleHead(n_embed, n_embed, t),
             FeedForward(n_embed)
         )
 
@@ -100,13 +100,13 @@ class BlockSH(torch.nn.Module):
 
 class BlockMH(torch.nn.Module):
 
-    def __init__(self, n_embed, head_size, n_heads, t):
+    def __init__(self, n_embed, n_heads, t):
 
         super().__init__()
 
         self.net = torch.nn.Sequential(
-            MultiHead(n_heads, n_embed, head_size//n_heads, t),
-            MultiHead(n_heads, head_size, head_size//n_heads, t),
+            MultiHead(n_heads, n_embed//n_heads, t),
+            MultiHead(n_heads, n_embed//n_heads, t),
             FeedForward(n_embed)
         )
 
@@ -131,31 +131,27 @@ class Block(torch.nn.Module):
                 FeedForward(n_embed)
             )
         self.linear_transform = torch.nn.Linear(2*n_embed, n_embed)
+
+    def forward_n(self, x, n):
+
+        model_input = x
+        for i in range(0, n):
+            out_one = self.head_one(model_input)
+            out_two = self.encoder(model_input)
+            
+            out_one = self.decoder(out_one)
+            out_two = self.decoder(out_two)
+            out = torch.cat([out_one, out_two], dim=-1)
+            out = self.linear_transform(out)
+
+            model_input = out
+
+        out = model_input
+        return out
+
     
     def forward(self, x):
 
-        out_one = self.head_one(x)
-        out_two = self.encoder(x)
-        
-        out_one = self.decoder(out_one)
-        out_two = self.decoder(out_two)
-        out = torch.cat([out_one, out_two], dim=-1)
-        out = self.linear_transform(out)
-        
-        out_one = self.head_one(x)
-        out_two = self.encoder(x)
-        
-        out_one = self.decoder(out_one)
-        out_two = self.decoder(out_two)
-        out = torch.cat([out_one, out_two], dim=-1)
-        out = self.linear_transform(out)
 
-        out_one = self.head_one(x)
-        out_two = self.encoder(x)
-        
-        out_one = self.decoder(out_one)
-        out_two = self.decoder(out_two)
-        out = torch.cat([out_one, out_two], dim=-1)
-        out = self.linear_transform(out)
-
+        out = self.forward_n(x, 3)
         return out
